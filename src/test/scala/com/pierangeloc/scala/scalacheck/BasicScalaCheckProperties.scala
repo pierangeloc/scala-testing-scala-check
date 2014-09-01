@@ -99,4 +99,32 @@ object BasicScalaCheckProperties extends Properties("Simple Math") {
       xmlGenerated => println(xmlGenerated); true
     }
 
+
+
+  case class Vector(x: Double, y: Double, z: Double) {
+    val squaredModule = x * x + y * y + z * z
+
+    def +(another: Vector): Vector = Vector(x + another.x, y + another.y, z + another.z)
+  }
+
+
+  val VectorGenerator3d = for {
+    x <- Gen.choose(-100.0, 100.0)
+    y <- Gen.choose(-100.0, 100.0)
+    z <- Gen.choose(-100.0, 100.0)
+  } yield Vector(x, y, z)
+
+  val pairsOf3dVectors = for {
+    v1 <- VectorGenerator3d
+    v2 <- VectorGenerator3d
+  } yield (v1, v2)
+
+  property("triangular inequality") =
+    forAll(pairsOf3dVectors) {
+      case (v1, v2) => {
+        println((v1 + v2).squaredModule + ":" + v1.squaredModule + ","  + v2.squaredModule); (v1 + v2).squaredModule <= v1.squaredModule + v2.squaredModule
+      }
+    }
+
+
 }
