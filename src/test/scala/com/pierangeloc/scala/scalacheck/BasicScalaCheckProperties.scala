@@ -122,7 +122,8 @@ object BasicScalaCheckProperties extends Properties("Simple Math") {
   property("triangular inequality") =
     forAll(pairsOf3dVectors) {
       case (v1, v2) => {
-        println((v1 + v2).squaredModule + ":" + v1.squaredModule + ","  + v2.squaredModule); (v1 + v2).squaredModule <= v1.squaredModule + v2.squaredModule
+//        println((v1 + v2).squaredModule + ":" + v1.squaredModule + ","  + v2.squaredModule);
+        Math.sqrt((v1 + v2).squaredModule) <= Math.sqrt(v1.squaredModule) + Math.sqrt(v2.squaredModule)
       }
     }
 
